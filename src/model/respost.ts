@@ -9,6 +9,14 @@ export default class RespostModel {
     this.#revelada = revelada;
   }
 
+  static certa(valor: string) {
+    return new RespostModel(valor, true);
+  }
+
+  static errada(valor: string) {
+    return new RespostModel(valor, false);
+  }
+
   get valor() {
     return this.#valor;
   }
@@ -19,5 +27,13 @@ export default class RespostModel {
 
   get revelada() {
     return this.#revelada;
+  }
+
+  toObject() {
+    return {
+      valor: this.#valor,
+      certa: this.#certa,
+      revelada: this.#revelada,
+    };
   }
 }

@@ -40,4 +40,13 @@ export default class QuestModel {
     }
     return false;
   }
+
+  toObject() {
+    return {
+      id: this.#id,
+      enunciado: this.#enunciado,
+      respostas: this.#respostas.map((resp) => resp.toObject()),
+      acertou: this.#acertou,
+    };
+  }
 }
