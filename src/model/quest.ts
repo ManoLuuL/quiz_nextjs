@@ -1,11 +1,17 @@
+import RespostModel from "./respost";
+
 export default class QuestModel {
   #id: number;
   #enunciado: string;
-  #respostas: any[];
+  #respostas: RespostModel[];
   #acertou: boolean;
-  // #respondidas: boolean
 
-  constructor(id: number, enunciado: string, respostas: any, acertou = false) {
+  constructor(
+    id: number,
+    enunciado: string,
+    respostas: RespostModel[],
+    acertou = false
+  ) {
     this.#acertou = acertou;
     this.#enunciado = enunciado;
     this.#id = id;
@@ -29,6 +35,9 @@ export default class QuestModel {
   }
 
   get respondidas() {
+    for (let resposta of this.#respostas) {
+      if (resposta.revelada) return true;
+    }
     return false;
   }
 }
