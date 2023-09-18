@@ -42,8 +42,24 @@ export default class QuestModel {
     return false;
   }
 
+  responderCom(index: number): QuestModel {
+    const acertou = this.#respostas[index]?.certa;
+    const respostas = this.#respostas.map((resp, i) => {
+      const respostaSelecionada = index === i;
+      const deveRevelar = respostaSelecionada ?? resp.certa;
+      return deveRevelar ? resp.revelar() : resp;
+    });
+    return new QuestModel(this.id, this.enunciado, respostas, acertou);
+  }
+
   embaralharRespostas() {
     let respostasEmbaralhadas = Embaralhar(this.#respostas);
+    return new QuestModel(
+      this.#id,
+      this.#enunciado,
+      respostasEmbaralhadas,
+      this.#acertou
+    );
   }
 
   toObject() {
@@ -52,6 +68,7 @@ export default class QuestModel {
       enunciado: this.#enunciado,
       respostas: this.#respostas.map((resp) => resp.toObject()),
       acertou: this.#acertou,
+      respondidas: this.respondidas,
     };
   }
 }

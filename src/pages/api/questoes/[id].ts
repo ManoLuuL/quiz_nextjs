@@ -8,7 +8,8 @@ export default (req: any, res: any) => {
 
   if (questSelected.length === 1) {
     const questSelect = questSelected[0].embaralharRespostas();
-    res.status(200).json(questSelect.toObject());
+    const obj = questSelect.responderCom(0).toObject();
+    res.status(200).json(obj);
   } else {
     res.status(204).send();
   }
