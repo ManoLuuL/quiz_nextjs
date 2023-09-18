@@ -7,7 +7,7 @@ export default (req: any, res: any) => {
   const questSelected = questoes.filter((questao) => questao.id === idSelected);
 
   if (questSelected.length === 1) {
-    const questSelect = questSelected[0];
+    const questSelect = questSelected[0].embaralharRespostas();
     res.status(200).json(questSelect.toObject());
   } else {
     res.status(204).send();

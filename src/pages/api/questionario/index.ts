@@ -1,6 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
+import { Embaralhar } from "@/functions/array";
 import questoes from "../bancoDeQuestoes";
 
 export default (req: any, res: any) => {
-  res.status(200).json(questoes.map((quest) => quest.id));
+  const ids = questoes.map((questao) => questao.id);
+  res.status(200).json(Embaralhar(ids));
 };

@@ -1,3 +1,4 @@
+import { Embaralhar } from "@/functions/array";
 import RespostModel from "./respost";
 
 export default class QuestModel {
@@ -39,6 +40,10 @@ export default class QuestModel {
       if (resposta.revelada) return true;
     }
     return false;
+  }
+
+  embaralharRespostas() {
+    let respostasEmbaralhadas = Embaralhar(this.#respostas);
   }
 
   toObject() {
