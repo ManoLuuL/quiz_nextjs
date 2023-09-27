@@ -6,7 +6,7 @@ export const Enunciado: FC<EnunciadoProps> = (props) => {
 
   return (
     <div className="flex">
-      <span className="text-xl">{text}</span>
+      <span className="text-xl font-bold">{text}</span>
     </div>
   );
 };

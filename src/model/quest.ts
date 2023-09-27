@@ -13,10 +13,10 @@ export default class QuestModel {
     respostas: RespostModel[],
     acertou = false
   ) {
-    this.#acertou = acertou;
-    this.#enunciado = enunciado;
     this.#id = id;
+    this.#enunciado = enunciado;
     this.#respostas = respostas;
+    this.#acertou = acertou;
   }
 
   get id() {
@@ -27,32 +27,36 @@ export default class QuestModel {
     return this.#enunciado;
   }
 
-  get acertou() {
-    return this.#acertou;
-  }
-
   get respostas() {
     return this.#respostas;
   }
 
-  get respondidas() {
+  get acertou() {
+    return this.#acertou;
+  }
+
+  get naoRespondida() {
+    return !this.respondida;
+  }
+
+  get respondida() {
     for (let resposta of this.#respostas) {
       if (resposta.revelada) return true;
     }
     return false;
   }
 
-  responderCom(index: number): QuestModel {
-    const acertou = this.#respostas[index]?.certa;
-    const respostas = this.#respostas.map((resp, i) => {
-      const respostaSelecionada = index === i;
-      const deveRevelar = respostaSelecionada ?? resp.certa;
-      return deveRevelar ? resp.revelar() : resp;
+  responderCom(indice: number): QuestModel {
+    const acertou = this.#respostas[indice]?.certa;
+    const respostas = this.#respostas.map((resposta, i) => {
+      const respostaSelecionada = indice === i;
+      const deveRevelar = respostaSelecionada || resposta.certa;
+      return deveRevelar ? resposta.revelar() : resposta;
     });
     return new QuestModel(this.id, this.enunciado, respostas, acertou);
   }
 
-  embaralharRespostas() {
+  embaralharRespostas(): QuestModel {
     let respostasEmbaralhadas = Embaralhar(this.#respostas);
     return new QuestModel(
       this.#id,
@@ -62,13 +66,20 @@ export default class QuestModel {
     );
   }
 
-  toObject() {
+  static criarUsandoObjeto(obj: QuestModel): QuestModel {
+    const respostas = obj.respostas.map((resp) =>
+      RespostModel.criarUsandoObjeto(resp)
+    );
+    return new QuestModel(obj.id, obj.enunciado, respostas, obj.acertou);
+  }
+
+  paraObjeto() {
     return {
       id: this.#id,
       enunciado: this.#enunciado,
-      respostas: this.#respostas.map((resp) => resp.toObject()),
+      respondida: this.respondida,
       acertou: this.#acertou,
-      respondidas: this.respondidas,
+      respostas: this.#respostas.map((resp) => resp.paraObjeto()),
     };
   }
 }

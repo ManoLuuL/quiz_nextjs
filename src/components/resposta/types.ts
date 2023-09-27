@@ -4,5 +4,6 @@ export type RespostaProps = {
   valor: RespostModel;
   indice: number;
   letra: string;
-  corDeFundoLetra: string;
+  corFundoLetra: string;
+  respostaFornecida(indice: number): void;
 };

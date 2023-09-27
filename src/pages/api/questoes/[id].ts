@@ -4,12 +4,13 @@ import questoes from "../bancoDeQuestoes";
 export default (req: any, res: any) => {
   const idSelected = +req.query.id;
 
-  const questSelected = questoes.filter((questao) => questao.id === idSelected);
+  const unicaQuestaoOuNada = questoes.filter(
+    (questao) => questao.id === idSelected
+  );
 
-  if (questSelected.length === 1) {
-    const questSelect = questSelected[0].embaralharRespostas();
-    const obj = questSelect.responderCom(0).toObject();
-    res.status(200).json(obj);
+  if (unicaQuestaoOuNada.length === 1) {
+    const questionSelected = unicaQuestaoOuNada[0].embaralharRespostas();
+    res.status(200).json(questionSelected.paraObjeto());
   } else {
     res.status(204).send();
   }
